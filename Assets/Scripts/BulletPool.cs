@@ -34,6 +34,7 @@ public class BulletPool : MonoBehaviour
         {
             if (!bullets[i].gameObject.activeSelf)
             {
+                bullets[i].enabled=true;
                 bullets[i].Fire(position, direction);
                 return true;
             }

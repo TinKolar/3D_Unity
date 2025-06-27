@@ -6,93 +6,97 @@ public class Bullet : MonoBehaviour, IDestroyable
 {
     public float speed = 20f;
     public float lifeTime = 3f;
+    public LayerMask collisionMask;
 
     private float lifeTimer;
     private Vector3 direction;
-    private Rigidbody rb;
 
     private void Awake()
     {
-        rb = GetComponentInChildren<Rigidbody>(true);
-
-        if (rb == null)
-        {
-            Debug.LogError("No Rigidbody found in Bullet or its children!");
-        }
-
         gameObject.SetActive(false);
     }
-    //void FixedUpdate()
-    //{
-    //    rb.velocity = rb.velocity.normalized * speed;
-    //}
 
-    public void Fire(Vector3 startPosition, Vector3 direction)
+    public void Fire(Vector3 startPosition, Vector3 newDirection)
     {
-        transform.position = startPosition;
-        transform.rotation = Quaternion.LookRotation(direction);
-
-        transform.parent = null; // <-- make sure it's not a child of anything
-
-        this.direction = direction.normalized;
-        rb.velocity = this.direction * speed;
-
-        lifeTimer = lifeTime;
+        ResetBullet();
         gameObject.SetActive(true);
+        transform.position = startPosition;
+        transform.rotation = Quaternion.LookRotation(newDirection);
+        transform.parent = null;
+
+        direction = newDirection.normalized;
+        lifeTimer = lifeTime;
+
     }
+
 
     private void Update()
     {
+        if (this.isActiveAndEnabled)
+        {
+
+        float moveDistance = speed * Time.deltaTime;
         lifeTimer -= Time.deltaTime;
+
         if (lifeTimer <= 0f)
         {
-            Deactivate();
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        var hitObj = collision.gameObject;
-
-        // Destroyable target
-        if (hitObj.TryGetComponent<IDestroyable>(out var destroyable))
-        {
-            destroyable.DestroyObject();
             Deactivate();
             return;
         }
 
-        // Get collision contact info
-        ContactPoint contact = collision.contacts[0];
-        Vector3 incomingVelocity = rb.velocity;
-
-        // Reflect the velocity based on surface normal
-        Vector3 reflectedVelocity = Vector3.Reflect(incomingVelocity.normalized, contact.normal).normalized;
-
-        // Prevent perfect upward bounces (e.g., from flat ceilings)
-        if (Vector3.Angle(reflectedVelocity, Vector3.up) < 5f)
+        Ray ray = new Ray(transform.position, direction);
+        if (Physics.Raycast(ray, out RaycastHit hit, moveDistance + 0.5f, collisionMask))
         {
-            reflectedVelocity += Vector3.down * 0.1f; // push down slightly
-            reflectedVelocity.Normalize();
+            // Hit a destroyable object
+            if (hit.collider.TryGetComponent<IDestroyable>(out var destroyable))
+            {
+                destroyable.DestroyObject();
+                Deactivate();
+                return;
+            }
+
+            // Reflect direction
+            direction = Vector3.Reflect(direction, hit.normal).normalized;
+
+            // Reposition slightly away from the hit point
+            transform.position = hit.point + direction * 0.02f;
+        }
+        else
+        {
+            // Continue moving forward
+            transform.position += direction * moveDistance;
         }
 
-        // Apply new direction and speed
-        direction = reflectedVelocity;
-        rb.velocity = direction * speed;
-
-        // Slightly offset the position to avoid sticking
-        transform.position += contact.normal * 0.01f;
+        // Always rotate to face direction
+        transform.rotation = Quaternion.LookRotation(direction);
+        }
     }
-
 
     private void Deactivate()
     {
-        rb.velocity = Vector3.zero;
         gameObject.SetActive(false);
     }
 
     public void DestroyObject()
     {
-        Deactivate() ;
+        Deactivate();
     }
+
+    public void ResetBullet()
+    {
+        direction = Vector3.zero;
+        lifeTimer = 0f;
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!Application.isPlaying) return;
+
+        Gizmos.color = Color.red;
+        float rayLength = speed * Time.deltaTime + 0.5f;
+        Gizmos.DrawRay(transform.position, direction * rayLength);
+    }
+
 }
