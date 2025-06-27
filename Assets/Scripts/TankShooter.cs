@@ -2,21 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankShooter : MonoBehaviour
+public class TankShooter : MonoBehaviour, IShooter
 {
     public Transform firePoint;
+    public float fireInterval = 0.5f;
 
     private BulletPoolManager bulletPool;
     private int tankId;
+    private float fireCooldown = 0;
+
 
     private void Start()
     {
         tankId = GetInstanceID();
 
-        // Optional fallback if BulletPoolManager missed it
         if (bulletPool == null)
         {
             bulletPool = FindObjectOfType<BulletPoolManager>();
+        }
+
+        if (bulletPool != null)
+        {
+            bulletPool.RegisterShooter(this); // Force registration here
         }
     }
 
@@ -27,9 +34,17 @@ public class TankShooter : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && bulletPool != null)
+        fireCooldown-= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.E) && bulletPool != null && fireCooldown<=0f)
         {
             bulletPool.TryFire(tankId, firePoint.position, firePoint.forward);
+            fireCooldown=fireInterval;
         }
+    }
+
+    public int GetShooterId()
+    {
+        return tankId;
     }
 }

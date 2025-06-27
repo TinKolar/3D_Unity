@@ -1,41 +1,60 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BulletPoolManager : MonoBehaviour
 {
     public GameObject bulletPrefab;
-    public int bulletsPerTank = 6;
+    public int bulletsPerShooter = 6;
 
-    private Dictionary<int, List<Bullet>> tankBulletPool = new();
+    private Dictionary<int, List<Bullet>> shooterBulletPool = new();
 
     private void Start()
     {
-        TankShooter[] tanks = FindObjectsOfType<TankShooter>();
-
-        foreach (TankShooter tank in tanks)
+        // Find all shooters currently in the scene
+        IShooter[] shooters = FindObjectsOfType<MonoBehaviour>().OfType<IShooter>().ToArray();
+        foreach (IShooter shooter in shooters)
         {
-            int tankId = tank.GetInstanceID();
-            tankBulletPool[tankId] = new List<Bullet>();
-
-            for (int i = 0; i < bulletsPerTank; i++)
-            {
-                GameObject bulletObj = Instantiate(bulletPrefab);
-                bulletObj.SetActive(false);
-
-                Bullet bullet = bulletObj.GetComponent<Bullet>();
-                tankBulletPool[tankId].Add(bullet);
-            }
-
-            tank.AssignBulletPool(this);  // Let the tank register
+            RegisterShooter(shooter);
         }
     }
 
-    public bool TryFire(int tankId, Vector3 position, Vector3 direction)
+    public void RegisterShooter(IShooter shooter)
     {
-        if (!tankBulletPool.ContainsKey(tankId)) return false;
+        int id = shooter.GetShooterId();
+        if (shooterBulletPool.ContainsKey(id))
+        {
+            //Debug.LogWarning($"Shooter with ID {id} is already registered.");
+            return;
+        }
 
-        foreach (Bullet bullet in tankBulletPool[tankId])
+        //Debug.Log($"Registering shooter with ID: {id}");
+
+        var bulletList = new List<Bullet>();
+
+        for (int i = 0; i < bulletsPerShooter; i++)
+        {
+            GameObject bulletObj = Instantiate(bulletPrefab);
+            bulletObj.SetActive(false);
+            Bullet bullet = bulletObj.GetComponent<Bullet>();
+            bulletList.Add(bullet);
+        }
+
+        shooterBulletPool[id] = bulletList;
+        shooter.AssignBulletPool(this);
+    }
+
+    public bool TryFire(int shooterId, Vector3 position, Vector3 direction)
+    {
+        //Debug.Log($"TryFire called by shooter ID: {shooterId}");
+
+        if (!shooterBulletPool.TryGetValue(shooterId, out List<Bullet> bullets))
+        {
+            //Debug.LogWarning($"Shooter ID {shooterId} not found in bullet pool.");
+            return false;
+        }
+
+        foreach (Bullet bullet in bullets)
         {
             if (!bullet.gameObject.activeInHierarchy)
             {
@@ -44,6 +63,7 @@ public class BulletPoolManager : MonoBehaviour
             }
         }
 
-        return false; // No available bullet
+        //Debug.Log($"No available bullets for shooter ID {shooterId}.");
+        return false;
     }
 }
