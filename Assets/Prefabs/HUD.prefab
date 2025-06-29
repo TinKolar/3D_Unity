@@ -112,6 +112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 704f5b9e69398394596e7db1a9499e3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeText: {fileID: 4291907450105358890}
+  keyEnemyText: {fileID: 7864824712198108078}
 --- !u!1 &427164130635838613
 GameObject:
   m_ObjectHideFlags: 0

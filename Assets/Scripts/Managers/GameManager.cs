@@ -9,7 +9,14 @@ public class GameManager : MonoBehaviour
 
 
     public string MainMenu = "MainMenuScene";
-    public string GameOne = "GameOneScene";
+    public string LevelOne = "Game_1_Scene";
+    public string LevelTwo = "Game_2_Scene";
+    public string LevelThree = "Game_3_Scene";
+    public string Tutorial = "TutorialScene";
+
+    public bool levelTwoUnlocked=false;
+    public bool levelThreeUnlocked=false;
+
 
     void Awake()
     {
