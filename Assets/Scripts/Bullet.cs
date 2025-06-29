@@ -7,9 +7,11 @@ public class Bullet : MonoBehaviour, IDestroyable
     public float speed = 20f;
     public float lifeTime = 3f;
     public LayerMask collisionMask;
+    public GameObject explosionParticleFX;
 
     private float lifeTimer;
     private Vector3 direction;
+    
 
     private void Awake()
     {
@@ -72,8 +74,17 @@ public class Bullet : MonoBehaviour, IDestroyable
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.TryGetComponent<IDestroyable>(out var destroyable))
+        {
+            destroyable.DestroyObject();
+            Deactivate();
+        }
+    }
     private void Deactivate()
     {
+        Instantiate(explosionParticleFX,transform.position,Quaternion.identity);
         gameObject.SetActive(false);
     }
 

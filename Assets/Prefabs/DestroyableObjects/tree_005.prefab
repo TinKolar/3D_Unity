@@ -11,14 +11,14 @@ GameObject:
   - component: {fileID: 488786874145727478}
   - component: {fileID: 3559917967634033747}
   - component: {fileID: 1622326993687910553}
-  - component: {fileID: 1876241505531287556}
   - component: {fileID: 8462574934603720961}
+  - component: {fileID: 7268034171773792284}
   m_Layer: 0
   m_Name: tree_005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &488786874145727478
 Transform:
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 11121992ad458184e93cbf9e25d563b5, type: 2}
+  - {fileID: 2100000, guid: 0ec0696fa2838bd4fbacd93c00b3f60b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,8 +85,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1876241505531287556
-BoxCollider:
+--- !u!114 &8462574934603720961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973716219492579660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d5bd11ed824baa4abaadf465f64611e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!64 &7268034171773792284
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,18 +115,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.6989929, y: 1.4721094, z: 0.66697115}
-  m_Center: {x: 0, y: 0.7304333, z: 0.00000008940697}
---- !u!114 &8462574934603720961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 973716219492579660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d5bd11ed824baa4abaadf465f64611e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7084056868559125198, guid: 013fdce570577cb47aa857c53a0ee23b, type: 3}

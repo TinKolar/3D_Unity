@@ -11,14 +11,14 @@ GameObject:
   - component: {fileID: 6824239325842194951}
   - component: {fileID: 7573728664909270434}
   - component: {fileID: 5692476665495337320}
-  - component: {fileID: 4701365571377248834}
   - component: {fileID: 5282091568515696726}
+  - component: {fileID: 5184305776362307462}
   m_Layer: 0
   m_Name: tree_004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6824239325842194951
 Transform:
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 11121992ad458184e93cbf9e25d563b5, type: 2}
+  - {fileID: 2100000, guid: 0ec0696fa2838bd4fbacd93c00b3f60b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,8 +85,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4701365571377248834
-BoxCollider:
+--- !u!114 &5282091568515696726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6196743279009274045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d5bd11ed824baa4abaadf465f64611e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!64 &5184305776362307462
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,18 +115,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.6638744, y: 1.0416197, z: 0.72557557}
-  m_Center: {x: -0.008700877, y: 0.513352, z: 0.029583052}
---- !u!114 &5282091568515696726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6196743279009274045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d5bd11ed824baa4abaadf465f64611e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8567103375890716712, guid: a1f77541cbb2fa34c8f82f6c336a5322, type: 3}

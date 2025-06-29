@@ -9,7 +9,7 @@ public class BulletPool : MonoBehaviour
 
     private Bullet[] bullets;
 
-    private int activeTanks = 0;
+    //private int activeTanks = 0;
 
     private void Awake()
     {

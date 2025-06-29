@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,23 +26,35 @@ public class TankController : MonoBehaviour , IDestroyable
     public float groundedCheckDistance = 0.2f;
 
 
+    [Header("Shader Settings")]
+    public float dissolveDuration = 1f;            // Duration of dissolve
+    public float dissolveEndValue = 0.8f;          // Final dissolve value
+
+    private string dissolveProperty = "_DissolveEffect";  // Name of the shader property
+    private List<Material> allMaterials = new List<Material>();
+
     private float currentMoveSpeed = 0f;
     private float currentRotationSpeed = 0f;
-    private bool isGrounded;
     private Rigidbody rb;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        foreach (Renderer rend in renderers)
+        {
+            // This ensures each renderer gets its own instance of the material
+            allMaterials.Add(rend.material);
+        }
     }
     private void Update()
     {
         HandleMovement();
         HandleRotation();
         HandleJumpInput();
-        CheckGrounded();
     }
-
+    #region MOVEMENT
     void HandleMovement()
     {
         float targetInput = 0f;
@@ -95,17 +108,22 @@ public class TankController : MonoBehaviour , IDestroyable
 
     void HandleJumpInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+            rb.AddForce(Vector3.up*jumpForce,ForceMode.Impulse);
+        }
+        if (rb.velocity.y < -20f)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, -20f, rb.velocity.z);
         }
     }
 
-    void CheckGrounded()
+    bool IsGrounded()
     {
-        // Raycast down to check if grounded
-        Ray ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
-        isGrounded = Physics.Raycast(ray, groundedCheckDistance + 0.1f, groundMask);
+        bool isGrounded = Physics.Raycast(transform.position, Vector3.down, groundedCheckDistance, groundMask);
+        Debug.Log(isGrounded);
+        return isGrounded;
     }
 
 
@@ -148,10 +166,44 @@ public class TankController : MonoBehaviour , IDestroyable
         Gizmos.DrawRay(origin + rightOffset, direction * groundRayLength);
         Gizmos.DrawRay(origin + leftOffset, direction * groundRayLength);
     }
+    #endregion
+
+    #region ShaderLogic
+
+    private IEnumerator DissolveAndDestroy()
+    {
+        float elapsed = 0f;
+        float startValue = 0f;
+
+        while (elapsed < dissolveDuration)
+        {
+            float t = elapsed / dissolveDuration;
+            float currentValue = Mathf.Lerp(startValue, dissolveEndValue, t);
+
+            foreach (var mat in allMaterials)
+            {
+                mat.SetFloat(dissolveProperty, currentValue);
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        foreach (var mat in allMaterials)
+        {
+            mat.SetFloat(dissolveProperty, dissolveEndValue);
+        }
+
+        Destroy(gameObject);
+    }
+
+
+    #endregion
 
     public void DestroyObject()
     {
-        Debug.Log("Tank Destroyed");
-        Destroy(gameObject);
+        StartCoroutine(DissolveAndDestroy());
+        //Debug.Log("Tank Destroyed");
+        //Destroy(gameObject);
     }
 }

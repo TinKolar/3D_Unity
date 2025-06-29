@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1642698514008994562}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.003, z: 0.569}
+  m_LocalPosition: {x: -0, y: -0.003, z: 0.75}
   m_LocalScale: {x: 1.2195122, y: 1.2195122, z: 1.2195122}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -128,6 +128,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 431db612f98c9df4ab2eac05d2b1dc1a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c9a590f5351b0bf4babd74788f1f1499, type: 2}
     - target: {fileID: 919132149155446097, guid: 431db612f98c9df4ab2eac05d2b1dc1a, type: 3}
       propertyPath: m_Name
       value: canon_001
@@ -205,7 +209,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!114 &4173307814514868859
 MonoBehaviour:
@@ -222,7 +226,7 @@ MonoBehaviour:
   baseTransform: {fileID: 6010213653987161355}
   barrelTransform: {fileID: 6010213653987161355}
   firePoint: {fileID: 6059694451888559620}
-  detectionRadius: 10
+  detectionRadius: 12
   fireInterval: 1
   aimSpeed: 5
   verticalClampAngle: 30
@@ -232,6 +236,8 @@ MonoBehaviour:
   visionObstacles:
     serializedVersion: 2
     m_Bits: 4294967295
+  dissolveDuration: 1
+  dissolveEndValue: 0.8
 --- !u!1001 &6116495245604950752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -280,6 +286,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 92fd50546eb212c4b88f9ed8e827ce38, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c9a590f5351b0bf4babd74788f1f1499, type: 2}
     - target: {fileID: 919132149155446097, guid: 92fd50546eb212c4b88f9ed8e827ce38, type: 3}
       propertyPath: m_Name
       value: canon
@@ -345,6 +355,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 590effbcb08c4194dabd1df0478b537f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c9a590f5351b0bf4babd74788f1f1499, type: 2}
     - target: {fileID: 919132149155446097, guid: 590effbcb08c4194dabd1df0478b537f, type: 3}
       propertyPath: m_Name
       value: building

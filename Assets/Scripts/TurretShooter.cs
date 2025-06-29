@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
 {
+    [Header("Turret Settings")]
     public Transform baseTransform;         // Rotates horizontally
     public Transform barrelTransform;       // Rotates vertically
     public Transform firePoint;
@@ -12,6 +15,14 @@ public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
     public float verticalClampAngle = 20f;
     public LayerMask playerMask;
     public LayerMask visionObstacles;       // e.g. walls, terrain
+
+
+    [Header("Shader Settings")]
+    public float dissolveDuration = 1f;            // Duration of dissolve
+    public float dissolveEndValue = 0.8f;          // Final dissolve value
+
+    private string dissolveProperty = "_DissolveEffect";  // Name of the shader property
+    private List<Material> allMaterials = new List<Material>();
 
     private Transform player;
     private float fireTimer;
@@ -25,10 +36,17 @@ public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
         bulletPool = FindObjectOfType<BulletPoolManager>();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
 
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        foreach (Renderer rend in renderers)
+        {
+            // This ensures each renderer gets its own instance of the material
+            allMaterials.Add(rend.material);
+        }
+
         if (bulletPool == null)
             Debug.LogError("BulletPool not found in scene!");
         else
-            bulletPool.RegisterShooter(this); // ✅ Register turret shooter
+            bulletPool.RegisterShooter(this); 
 
         if (player == null)
             Debug.LogError("Player not found in scene!");
@@ -121,10 +139,6 @@ public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 
-    public void DestroyObject()
-    {
-        Destroy(gameObject);
-    }
 
     public int GetShooterId()
     {
@@ -133,6 +147,43 @@ public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
 
     public void AssignBulletPool(BulletPoolManager manager)
     {
-        bulletPool=manager;
+        bulletPool = manager;
     }
+
+    #region ShaderLogic
+
+    private IEnumerator DissolveAndDestroy()
+    {
+        float elapsed = 0f;
+        float startValue = 0f;
+
+        while (elapsed < dissolveDuration)
+        {
+            float t = elapsed / dissolveDuration;
+            float currentValue = Mathf.Lerp(startValue, dissolveEndValue, t);
+
+            foreach (var mat in allMaterials)
+            {
+                mat.SetFloat(dissolveProperty, currentValue);
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        foreach (var mat in allMaterials)
+        {
+            mat.SetFloat(dissolveProperty, dissolveEndValue);
+        }
+
+        Destroy(gameObject);
+    }
+
+
+    #endregion
+    public void DestroyObject()
+    {
+        StartCoroutine(DissolveAndDestroy());
+    }
+
 }
