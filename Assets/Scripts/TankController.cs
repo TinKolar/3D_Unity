@@ -37,6 +37,10 @@ public class TankController : MonoBehaviour , IDestroyable
     private float currentRotationSpeed = 0f;
     private Rigidbody rb;
 
+    private bool isDead = false;
+
+    private VFXManager vFXManager;
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -48,6 +52,13 @@ public class TankController : MonoBehaviour , IDestroyable
             allMaterials.Add(rend.material);
         }
     }
+
+    private void Start()
+    {
+        vFXManager = VFXManager.instance;
+
+    }
+
     private void Update()
     {
         HandleMovement();
@@ -174,6 +185,7 @@ public class TankController : MonoBehaviour , IDestroyable
     {
         float elapsed = 0f;
         float startValue = 0f;
+        vFXManager.PlaySound(vFXManager.playerDeath, transform);
 
         while (elapsed < dissolveDuration)
         {
@@ -194,6 +206,7 @@ public class TankController : MonoBehaviour , IDestroyable
             mat.SetFloat(dissolveProperty, dissolveEndValue);
         }
 
+
         Destroy(gameObject);
     }
 
@@ -202,6 +215,10 @@ public class TankController : MonoBehaviour , IDestroyable
 
     public void DestroyObject()
     {
+
+        if(isDead) return;
+        else
+            isDead = true;
 
         Camera cam = GetComponentInChildren<Camera>();
 

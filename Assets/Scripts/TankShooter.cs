@@ -11,13 +11,10 @@ public class TankShooter : MonoBehaviour, IShooter
     private int tankId;
     private float fireCooldown = 0;
 
-    VFXManager vfxManager;
 
     private void Start()
     {
         tankId = GetInstanceID();
-
-        vfxManager = VFXManager.instance;
 
         if (bulletPool == null)
         {

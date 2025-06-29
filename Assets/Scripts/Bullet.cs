@@ -61,6 +61,7 @@ public class Bullet : MonoBehaviour, IDestroyable
 
             // Reflect direction
             direction = Vector3.Reflect(direction, hit.normal).normalized;
+            vFXManager.PlaySound(vFXManager.bulletBounce, transform);
 
             // Reposition slightly away from the hit point
             transform.position = hit.point + direction * 0.02f;

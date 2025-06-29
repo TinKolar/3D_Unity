@@ -29,13 +29,15 @@ public class VFXManager : MonoBehaviour
         // Instantiate at position and rotation
         ParticleSystem ps = Instantiate(boomPS, target.position, Quaternion.identity);
 
+        PlaySound(bulletExplosion, target.transform);
+
         // Destroy after the particle finishes
         Destroy(ps.gameObject, ps.main.duration + ps.main.startLifetime.constantMax);
     }
 
     public void PlaySound(AudioClip sound, Transform transform)
     {
-        if (sound == null || sound == null) return;
+        if (sound == null || transform == null) return;
 
         AudioSource.PlayClipAtPoint(sound, transform.position);
     }

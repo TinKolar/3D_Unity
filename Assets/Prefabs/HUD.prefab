@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6860461235438162029}
   - component: {fileID: 3799617570685903571}
   - component: {fileID: 4503106557956501240}
+  - component: {fileID: 1185068167572993177}
   m_Layer: 0
   m_Name: HUD
   m_TagString: Untagged
@@ -99,6 +100,18 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &1185068167572993177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195606246518970240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 704f5b9e69398394596e7db1a9499e3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &427164130635838613
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +138,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 427164130635838613}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.21}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -133,8 +146,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.11004639}
-  m_SizeDelta: {x: 0, y: 70}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 60}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &3165542266359281887
 CanvasRenderer:
