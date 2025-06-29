@@ -7,15 +7,16 @@ public class Bullet : MonoBehaviour, IDestroyable
     public float speed = 20f;
     public float lifeTime = 3f;
     public LayerMask collisionMask;
-    public GameObject explosionParticleFX;
 
     private float lifeTimer;
     private Vector3 direction;
+    private VFXManager vFXManager;
     
 
     private void Awake()
     {
         gameObject.SetActive(false);
+        vFXManager = VFXManager.instance;
     }
 
     public void Fire(Vector3 startPosition, Vector3 newDirection)
@@ -25,6 +26,7 @@ public class Bullet : MonoBehaviour, IDestroyable
         transform.position = startPosition;
         transform.rotation = Quaternion.LookRotation(newDirection);
         transform.parent = null;
+        vFXManager.PlaySound(vFXManager.bulletShot, transform);
 
         direction = newDirection.normalized;
         lifeTimer = lifeTime;
@@ -84,7 +86,8 @@ public class Bullet : MonoBehaviour, IDestroyable
     }
     private void Deactivate()
     {
-        Instantiate(explosionParticleFX,transform.position,Quaternion.identity);
+        //Instantiate(explosionParticleFX,transform.position,Quaternion.identity);
+        vFXManager.MakeBoom(transform);
         gameObject.SetActive(false);
     }
 

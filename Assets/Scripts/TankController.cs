@@ -202,6 +202,18 @@ public class TankController : MonoBehaviour , IDestroyable
 
     public void DestroyObject()
     {
+
+        Camera cam = GetComponentInChildren<Camera>();
+
+        if (cam != null)
+        {
+            cam.transform.parent = null; // Unparent it so it’s not destroyed with the tank
+        }
+
+        maxMoveSpeed = 0;
+        maxRotationSpeed = 0;
+        jumpForce = 0;
+        rb.velocity = Vector3.zero;
         StartCoroutine(DissolveAndDestroy());
         //Debug.Log("Tank Destroyed");
         //Destroy(gameObject);
