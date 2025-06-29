@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     public string LevelThree = "Game_3_Scene";
     public string Tutorial = "TutorialScene";
 
-    public bool levelTwoUnlocked=false;
-    public bool levelThreeUnlocked=false;
+    public bool levelTwoUnlocked=true;
+    public bool levelThreeUnlocked=true;
 
 
     void Awake()
