@@ -253,10 +253,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4436188351248068886, guid: 6919a7497bfadd740b9eec24d538398b, type: 3}
-      propertyPath: turretDeath
-      value: 
-      objectReference: {fileID: 8300000, guid: 6048fbb869497f7439cb3ea3abdf53e8, type: 3}
     - target: {fileID: 5927931396004860845, guid: 6919a7497bfadd740b9eec24d538398b, type: 3}
       propertyPath: m_Name
       value: VFXManager
