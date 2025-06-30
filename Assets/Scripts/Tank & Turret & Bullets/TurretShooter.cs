@@ -28,6 +28,8 @@ public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
     private float fireTimer;
     private BulletPoolManager bulletPool;
 
+    VFXManager vFXManager;
+
     private int turretId;
 
     private void Start()
@@ -50,6 +52,8 @@ public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
 
         if (player == null)
             Debug.LogError("Player not found in scene!");
+
+        vFXManager = VFXManager.instance;
     }
 
     private void Update()
@@ -183,6 +187,7 @@ public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
     #endregion
     public void DestroyObject()
     {
+        vFXManager.PlaySound(vFXManager.turretDeath, transform);
         StartCoroutine(DissolveAndDestroy());
     }
 

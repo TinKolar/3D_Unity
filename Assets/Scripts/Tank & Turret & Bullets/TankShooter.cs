@@ -23,7 +23,7 @@ public class TankShooter : MonoBehaviour, IShooter
 
         if (bulletPool != null)
         {
-            bulletPool.RegisterShooter(this); // Force registration here
+            bulletPool.RegisterShooter(this); 
         }
     }
 

@@ -11,7 +11,9 @@ public class VFXManager : MonoBehaviour
     [SerializeField] public AudioClip playerDeath;
     [SerializeField] public AudioClip vistory;
     [SerializeField] public AudioClip turretDeath;
-    [SerializeField] public AudioClip objectDestroy;
+    [SerializeField] public AudioClip keyDeath;
+
+    //[SerializeField] public AudioClip objectDestroy;
 
 
 
