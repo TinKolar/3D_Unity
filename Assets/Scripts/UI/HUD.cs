@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class HUD : MonoBehaviour
 {
@@ -29,13 +25,11 @@ public class HUD : MonoBehaviour
 
     private void Update()
     {
-        // Update elapsed time
         elapsedTime += Time.deltaTime;
         int minutes = Mathf.FloorToInt(elapsedTime / 60f);
         int seconds = Mathf.FloorToInt(elapsedTime % 60f);
         timeText.text = $"Time: {minutes:00}:{seconds:00}";
 
-        // Count KeyEnemy-tagged objects
         int numberOfKeyEnemies = GameObject.FindGameObjectsWithTag("KeyEnemy").Length;
         keyEnemyText.text = $"Key Enemies: {numberOfKeyEnemies}";
 
@@ -46,7 +40,7 @@ public class HUD : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Time.timeScale = 0f; // Pause the game
+            Time.timeScale = 0f; 
             if (looseCanvas != null)
             {
                optionsCanvas.gameObject.SetActive(true);
@@ -83,12 +77,12 @@ public class HUD : MonoBehaviour
 
     public void OnVictory()
     {
-        Time.timeScale = 0f; // Pause the game
+        Time.timeScale = 0f;
         winCanvas.gameObject.SetActive(true);
     }
     public void OnDefeat()
     {
-        Time.timeScale = 0f; // Pause the game
+        Time.timeScale = 0f;
         looseCanvas.gameObject.SetActive(true);
     }
 }

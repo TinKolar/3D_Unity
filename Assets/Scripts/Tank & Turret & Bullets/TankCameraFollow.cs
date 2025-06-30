@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class TankCameraFollow : MonoBehaviour
 {
-    public Transform target;                   // Assign your tank/player here
-    public Vector3 offset = new Vector3(0f, 5f, -10f);     // Camera offset
-    public Vector3 rotationOffset = new Vector3(20f, 0f, 0f); // Adjustable camera angle
-    public float followSpeed = 10f;            // Smooth following speed
-
+    public Transform target;                   
+    public Vector3 offset = new Vector3(0f, 5f, -10f);     
+    public Vector3 rotationOffset = new Vector3(20f, 0f, 0f); 
+    public float followSpeed = 10f;            
     void Start()
     {
         Camera cam = GetComponent<Camera>();
@@ -23,14 +22,11 @@ public class TankCameraFollow : MonoBehaviour
     {
         if (target == null) return;
 
-        // Calculate desired position based on offset from target
         Vector3 desiredPosition = target.TransformPoint(offset);
         transform.position = Vector3.Lerp(transform.position, desiredPosition, followSpeed * Time.deltaTime);
 
-        // Base look at the target
         transform.LookAt(target);
 
-        // Apply additional rotation offset
         transform.Rotate(rotationOffset);
     }
 }

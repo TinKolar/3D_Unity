@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -70,19 +69,15 @@ public class GameManager : MonoBehaviour
     {
         string loaderScene = "LoaderScene";
 
-        // Optional: ensure Loader is loaded
         if (!SceneManager.GetSceneByName(loaderScene).isLoaded)
             yield return SceneManager.LoadSceneAsync(loaderScene, LoadSceneMode.Additive);
 
-        // Unload current level
         yield return SceneManager.UnloadSceneAsync(currentLevelScene);
 
-        // Reload the level
         LoadScene(currentLevelScene);
         yield return null;
 
-        // Optional: unload loader again if you want
-        // yield return SceneManager.UnloadSceneAsync(loaderScene);
+
     }
 
     public void SaveProgress()

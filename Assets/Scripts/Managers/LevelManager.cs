@@ -21,7 +21,6 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
 
-        // Get the Door GameObject and its component
         GameObject door = GameObject.FindGameObjectWithTag("Door");
         if (door != null)
         {
@@ -34,11 +33,10 @@ public class LevelManager : MonoBehaviour
             Debug.LogWarning("No GameObject with tag 'Door' found.");
         }
 
-        // Get the winObject GameObject and its component
         GameObject obj = GameObject.FindGameObjectWithTag("winObject");
         if (obj != null)
         {
-            victoryPosition = obj.GetComponent<winObject>().transform; // ✅ not GameObject, it's your script!
+            victoryPosition = obj.GetComponent<winObject>().transform; 
             if (victoryPosition == null)
                 Debug.LogWarning("GameObject with tag 'winObject' found, but no 'winObject' component attached.");
         }
@@ -47,14 +45,12 @@ public class LevelManager : MonoBehaviour
             Debug.LogWarning("No GameObject with tag 'winObject' found.");
         }
 
-        // Get the VFXManager singleton
         vFXManager = VFXManager.instance;
         if (vFXManager == null)
         {
             Debug.LogWarning("VFXManager.instance is null.");
         }
 
-        // Get HUD component on this object
         GameObject hudObj = GameObject.FindGameObjectWithTag("HUD");
         if (hudObj != null)
         {
@@ -98,7 +94,6 @@ public class LevelManager : MonoBehaviour
     {
         win = true;
 
-        // Play sound
         vFXManager.PlaySound(vFXManager.victory, Camera.main.transform);
         yield return new WaitForSeconds(vFXManager.victory.length);
 
@@ -111,7 +106,6 @@ public class LevelManager : MonoBehaviour
             gameManager.levelThreeUnlocked = true;
         }
 
-        // Trigger HUD logic
         if (hud != null)
             hud.OnVictory();
 

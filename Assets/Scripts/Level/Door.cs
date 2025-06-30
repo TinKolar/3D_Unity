@@ -1,13 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Door : MonoBehaviour
 {
 
     [Header("Movement Settings")]
-    public float pullDistance = 3f;      // How far to move down
-    public float pullSpeed = 1f;         // Units per second
+    public float pullDistance = 3f;      
+    public float pullSpeed = 1f;         
 
     private Vector3 startPos;
     private Vector3 targetPos;
@@ -40,7 +39,7 @@ public class Door : MonoBehaviour
             yield return null;
         }
 
-        transform.position = targetPos; // Snap to exact position at the end
+        transform.position = targetPos; 
         isPulling = false;
     }
 

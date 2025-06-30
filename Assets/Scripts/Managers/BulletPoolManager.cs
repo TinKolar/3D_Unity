@@ -11,7 +11,6 @@ public class BulletPoolManager : MonoBehaviour
 
     private void Start()
     {
-        // Find all shooters currently in the scene
         IShooter[] shooters = FindObjectsOfType<MonoBehaviour>().OfType<IShooter>().ToArray();
         foreach (IShooter shooter in shooters)
         {

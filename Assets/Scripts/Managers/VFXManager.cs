@@ -13,7 +13,6 @@ public class VFXManager : MonoBehaviour
     [SerializeField] public AudioClip turretDeath;
     [SerializeField] public AudioClip keyDeath;
 
-    //[SerializeField] public AudioClip objectDestroy;
 
 
 
@@ -28,12 +27,10 @@ public class VFXManager : MonoBehaviour
 
     public void MakeBoom(Transform target)
     {
-        // Instantiate at position and rotation
         ParticleSystem ps = Instantiate(boomPS, target.position, Quaternion.identity);
 
         PlaySound(bulletExplosion, target.transform);
 
-        // Destroy after the particle finishes
         Destroy(ps.gameObject, ps.main.duration + ps.main.startLifetime.constantMax);
     }
 

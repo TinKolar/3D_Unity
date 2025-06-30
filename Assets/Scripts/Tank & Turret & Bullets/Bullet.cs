@@ -51,34 +51,28 @@ public class Bullet : MonoBehaviour, IDestroyable
             Ray ray = new Ray(transform.position, direction);
             if (Physics.Raycast(ray, out RaycastHit hit, moveDistance + 0.5f, collisionMask))
             {
-                // Hit a destroyable object
                 if (hit.collider.TryGetComponent<IDestroyable>(out var destroyable))
                 {
 
-                    // Check if it's specifically a DancingEnemy before destroying
                     if (hit.collider.TryGetComponent<DancingEnemy>(out var dancingEnemy))
                     {
-                        vFXManager.PlaySound(vFXManager.keyDeath, dancingEnemy.transform); // or dancingEnemy.transform
+                        vFXManager.PlaySound(vFXManager.keyDeath, dancingEnemy.transform);
                     }
                     destroyable.DestroyObject();
                     Deactivate();
                     return;
                 }
 
-                // Reflect direction
                 direction = Vector3.Reflect(direction, hit.normal).normalized;
                 vFXManager.PlaySound(vFXManager.bulletBounce, transform);
 
-                // Reposition slightly away from the hit point
                 transform.position = hit.point + direction * 0.02f;
             }
             else
             {
-                // Continue moving forward
                 transform.position += direction * moveDistance;
             }
 
-            // Always rotate to face direction
             transform.rotation = Quaternion.LookRotation(direction);
         }
     }
@@ -93,7 +87,6 @@ public class Bullet : MonoBehaviour, IDestroyable
     }
     private void Deactivate()
     {
-        //Instantiate(explosionParticleFX,transform.position,Quaternion.identity);
         vFXManager.MakeBoom(transform);
         gameObject.SetActive(false);
     }

@@ -5,8 +5,8 @@ using UnityEngine;
 public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
 {
     [Header("Turret Settings")]
-    public Transform baseTransform;         // Rotates horizontally
-    public Transform barrelTransform;       // Rotates vertically
+    public Transform baseTransform;         
+    public Transform barrelTransform;       
     public Transform firePoint;
 
     public float detectionRadius = 20f;
@@ -14,14 +14,14 @@ public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
     public float aimSpeed = 5f;
     public float verticalClampAngle = 20f;
     public LayerMask playerMask;
-    public LayerMask visionObstacles;       // e.g. walls, terrain
+    public LayerMask visionObstacles;       
 
 
     [Header("Shader Settings")]
-    public float dissolveDuration = 1f;            // Duration of dissolve
-    public float dissolveEndValue = 0.8f;          // Final dissolve value
+    public float dissolveDuration = 1f;            
+    public float dissolveEndValue = 0.8f;          
 
-    private string dissolveProperty = "_DissolveEffect";  // Name of the shader property
+    private string dissolveProperty = "_DissolveEffect";  
     private List<Material> allMaterials = new List<Material>();
 
     private Transform player;
@@ -41,7 +41,6 @@ public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer rend in renderers)
         {
-            // This ensures each renderer gets its own instance of the material
             allMaterials.Add(rend.material);
         }
 
@@ -98,13 +97,11 @@ public class TurretShooter : MonoBehaviour, IDestroyable, IShooter
 
     private void AimAt(Vector3 worldDirection)
     {
-        // Horizontal rotation (Y axis)
         Vector3 flatDir = new Vector3(worldDirection.x, 0, worldDirection.z);
         Quaternion targetBaseRot = Quaternion.LookRotation(flatDir);
         baseTransform.rotation = Quaternion.Slerp(baseTransform.rotation, targetBaseRot, Time.deltaTime * aimSpeed);
 
 
-        // Vertical rotation (X axis)
         Quaternion targetBarrelRot = Quaternion.LookRotation(worldDirection);
 
         float offset=0;

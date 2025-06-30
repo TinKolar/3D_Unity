@@ -27,10 +27,10 @@ public class TankController : MonoBehaviour , IDestroyable
 
 
     [Header("Shader Settings")]
-    public float dissolveDuration = 1f;            // Duration of dissolve
-    public float dissolveEndValue = 0.8f;          // Final dissolve value
+    public float dissolveDuration = 1f;            
+    public float dissolveEndValue = 0.8f;          
 
-    private string dissolveProperty = "_DissolveEffect";  // Name of the shader property
+    private string dissolveProperty = "_DissolveEffect";  
     private List<Material> allMaterials = new List<Material>();
 
     private float currentMoveSpeed = 0f;
@@ -49,7 +49,6 @@ public class TankController : MonoBehaviour , IDestroyable
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         foreach (Renderer rend in renderers)
         {
-            // This ensures each renderer gets its own instance of the material
             allMaterials.Add(rend.material);
         }
     }
@@ -58,7 +57,6 @@ public class TankController : MonoBehaviour , IDestroyable
     {
         vFXManager = VFXManager.instance;
 
-        // Get HUD component on this object
         GameObject hudObj = GameObject.FindGameObjectWithTag("HUD");
         if (hudObj != null)
         {
@@ -237,7 +235,7 @@ public class TankController : MonoBehaviour , IDestroyable
 
         if (cam != null)
         {
-            cam.transform.parent = null; // Unparent it so it’s not destroyed with the tank
+            cam.transform.parent = null;
         }
 
         maxMoveSpeed = 0;

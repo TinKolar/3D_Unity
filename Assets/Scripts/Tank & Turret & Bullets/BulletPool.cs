@@ -39,6 +39,6 @@ public class BulletPool : MonoBehaviour
                 return true;
             }
         }
-        return false; // All bullets in use
+        return false;
     }
 }
