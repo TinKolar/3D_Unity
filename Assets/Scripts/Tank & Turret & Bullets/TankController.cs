@@ -40,6 +40,7 @@ public class TankController : MonoBehaviour , IDestroyable
     private bool isDead = false;
 
     private VFXManager vFXManager;
+    private HUD hud;
     
     private void Awake()
     {
@@ -57,6 +58,18 @@ public class TankController : MonoBehaviour , IDestroyable
     {
         vFXManager = VFXManager.instance;
 
+        // Get HUD component on this object
+        GameObject hudObj = GameObject.FindGameObjectWithTag("HUD");
+        if (hudObj != null)
+        {
+            hud = hudObj.GetComponent<HUD>();
+            if (hud == null)
+                Debug.LogWarning("GameObject with tag 'HUD' found, but no 'HUD' component attached.");
+        }
+        else
+        {
+            Debug.LogWarning("No GameObject with tag 'HUD' found.");
+        }
     }
 
     private void Update()
@@ -133,7 +146,7 @@ public class TankController : MonoBehaviour , IDestroyable
     bool IsGrounded()
     {
         bool isGrounded = Physics.Raycast(transform.position, Vector3.down, groundedCheckDistance, groundMask);
-        Debug.Log(isGrounded);
+        //Debug.Log(isGrounded);
         return isGrounded;
     }
 
@@ -206,7 +219,7 @@ public class TankController : MonoBehaviour , IDestroyable
             mat.SetFloat(dissolveProperty, dissolveEndValue);
         }
 
-
+        hud.OnDefeat();
         Destroy(gameObject);
     }
 

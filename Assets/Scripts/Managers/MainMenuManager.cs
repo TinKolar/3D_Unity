@@ -94,4 +94,10 @@ public class MainMenuManager : MonoBehaviour
     }
 
 
+    public void OnResetProgressButton()
+    {
+        gameManager.levelTwoUnlocked = false;
+        gameManager.levelThreeUnlocked = false;
+    }
+
 }

@@ -6,7 +6,8 @@ TagManager:
   tags:
   - KeyEnemy
   - Door
-  - Camera
+  - winObject
+  - HUD
   layers:
   - Default
   - TransparentFX

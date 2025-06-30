@@ -64,13 +64,13 @@ public class HUD : MonoBehaviour
 
         looseCanvas.gameObject.SetActive(false);
         optionsCanvas.gameObject.SetActive(false);
-        gameManager.LoadScene(SceneManager.GetActiveScene().name,SceneManager.GetActiveScene().name);
+        gameManager.RestartLevel();
     }
 
     public void OnQuitButton()
     {
         Time.timeScale = 1f;
-        gameManager.LoadScene(gameManager.MainMenu, SceneManager.GetActiveScene().name);
+        gameManager.LoadScene(gameManager.MainMenu, gameManager.currentLevelScene);
     }
 
     public void OnContiuneButton()

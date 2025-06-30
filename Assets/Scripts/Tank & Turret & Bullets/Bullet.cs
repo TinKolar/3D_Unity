@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour, IDestroyable
     private float lifeTimer;
     private Vector3 direction;
     private VFXManager vFXManager;
-    
+
 
     private void Awake()
     {
@@ -39,47 +39,53 @@ public class Bullet : MonoBehaviour, IDestroyable
         if (this.isActiveAndEnabled)
         {
 
-        float moveDistance = speed * Time.deltaTime;
-        lifeTimer -= Time.deltaTime;
+            float moveDistance = speed * Time.deltaTime;
+            lifeTimer -= Time.deltaTime;
 
-        if (lifeTimer <= 0f)
-        {
-            Deactivate();
-            return;
-        }
-
-        Ray ray = new Ray(transform.position, direction);
-        if (Physics.Raycast(ray, out RaycastHit hit, moveDistance + 0.5f, collisionMask))
-        {
-            // Hit a destroyable object
-            if (hit.collider.TryGetComponent<IDestroyable>(out var destroyable))
+            if (lifeTimer <= 0f)
             {
-                destroyable.DestroyObject();
                 Deactivate();
                 return;
             }
 
-            // Reflect direction
-            direction = Vector3.Reflect(direction, hit.normal).normalized;
-            vFXManager.PlaySound(vFXManager.bulletBounce, transform);
+            Ray ray = new Ray(transform.position, direction);
+            if (Physics.Raycast(ray, out RaycastHit hit, moveDistance + 0.5f, collisionMask))
+            {
+                // Hit a destroyable object
+                if (hit.collider.TryGetComponent<IDestroyable>(out var destroyable))
+                {
 
-            // Reposition slightly away from the hit point
-            transform.position = hit.point + direction * 0.02f;
-        }
-        else
-        {
-            // Continue moving forward
-            transform.position += direction * moveDistance;
-        }
+                    // Check if it's specifically a DancingEnemy before destroying
+                    if (hit.collider.TryGetComponent<DancingEnemy>(out var dancingEnemy))
+                    {
+                        vFXManager.PlaySound(vFXManager.keyDeath, dancingEnemy.transform); // or dancingEnemy.transform
+                    }
+                    destroyable.DestroyObject();
+                    Deactivate();
+                    return;
+                }
 
-        // Always rotate to face direction
-        transform.rotation = Quaternion.LookRotation(direction);
+                // Reflect direction
+                direction = Vector3.Reflect(direction, hit.normal).normalized;
+                vFXManager.PlaySound(vFXManager.bulletBounce, transform);
+
+                // Reposition slightly away from the hit point
+                transform.position = hit.point + direction * 0.02f;
+            }
+            else
+            {
+                // Continue moving forward
+                transform.position += direction * moveDistance;
+            }
+
+            // Always rotate to face direction
+            transform.rotation = Quaternion.LookRotation(direction);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.TryGetComponent<IDestroyable>(out var destroyable))
+        if (collision.collider.TryGetComponent<IDestroyable>(out var destroyable))
         {
             destroyable.DestroyObject();
             Deactivate();

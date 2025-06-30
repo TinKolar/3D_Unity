@@ -9,7 +9,7 @@ public class VFXManager : MonoBehaviour
     [SerializeField] public AudioClip bulletShot;
     [SerializeField] public AudioClip bulletExplosion;
     [SerializeField] public AudioClip playerDeath;
-    [SerializeField] public AudioClip vistory;
+    [SerializeField] public AudioClip victory;
     [SerializeField] public AudioClip turretDeath;
     [SerializeField] public AudioClip keyDeath;
 
